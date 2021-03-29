@@ -23,19 +23,19 @@ namespace ProyectoM
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string _urlApi = "https://localhost:44393";
-       
-        
+        UrlApi urlApi = new UrlApi();
+  
+
         public MainWindow()
-        {
+        {  
             InitializeComponent();
             LlenarComboBox();
-
         }
 
         private void LlenarComboBox()
         {
-            var client = new RestClient(_urlApi);
+            string strUrlApi = urlApi.getUrlApi();
+            var client = new RestClient(strUrlApi);
             var request = new RestRequest("/api/OrderOptions", Method.GET);
             var response = client.Execute(request);
 
@@ -65,9 +65,9 @@ namespace ProyectoM
             string frase = inputFrase.Text.Trim();
             string opcionCombo = comboBox.SelectedItem.ToString();
             opcionCombo = opcionCombo.Replace("{", "").Replace("}","").Replace("=", "").Replace("Text", "").Trim();
-            
 
-            var client = new RestClient(_urlApi);           
+            string strUrlApi = urlApi.getUrlApi();
+            var client = new RestClient(strUrlApi);           
             var request = new RestRequest("/api/OrdererText", Method.GET);
             request.AddParameter("textToOrder", frase);
             request.AddParameter("orderOptionParam", opcionCombo);
@@ -80,7 +80,8 @@ namespace ProyectoM
             result.Clear();
             string frase = inputFrase.Text.Trim();
 
-            var client = new RestClient(_urlApi);
+            string strUrlApi = urlApi.getUrlApi();
+            var client = new RestClient(strUrlApi);
             var request = new RestRequest("/api/Statictis", Method.GET);
             request.AddParameter("textToAnalyze", frase);
             var response = client.Execute(request);
